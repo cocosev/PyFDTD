@@ -125,7 +125,7 @@ for n in range(numberOfTimeSteps):
         eyNew[xini][j] += gaussian(xini*dx, dt*n, omega, c0, desfase=delay)
         if n*dt >= (xfin-xini)*dx/c0:
             eyNew[xfin][j] -= gaussian(xfin*dx, dt*n, omega, c0, desfase=delay)
-    for i in range(xini, xfin+1):           
+    for i in range(xini+1, xfin):           
         if n*dt >= (i-xini)*dx/c0:
             # Engañamos a la 1a dentro para que parezca que la onda sigue a la izq.
             exNew[i][yini] = exOld[i][yini] + cEy * (hzOld[i][yini] - (hzOld[i  ][yini-1] + gaussian((i+1)*dx, dt*n, omega, c0, desfase=delay)/imp0))
