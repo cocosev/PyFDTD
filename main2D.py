@@ -152,8 +152,8 @@ for n in range(numberOfTimeSteps):
     eyNew[-1][ :] = 0.0;  
 
     # --- Updates H field --- (dif. progeresivas)
-    for i in range(gridHZX.size):
-        for j in range(gridHZX.size):
+    for i in range(gridHZX.size-1):
+        for j in range(gridHZX.size-1):
             hzNew[i][j] = hzOld[i][j] - cHx * (eyNew[i+1][j  ] - eyNew[i][j]) +\
                                         cHy * (exNew[i  ][j+1] - exNew[i][j])
         
