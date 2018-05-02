@@ -6,19 +6,20 @@ import scipy.constants
 import time
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from PIL import Image
 
 # ==== Preamble ===============================================================
 c0   = scipy.constants.speed_of_light
 mu0  = scipy.constants.mu_0
 eps0 = scipy.constants.epsilon_0
 imp0 = math.sqrt(mu0 / eps0)
-filename = "perita.jpg"
-epsrelpera = 
+filename = "perita.png"
+epsrel_pera = 2.8
 
-         = 10.0
+L         = 10.0
 dx        = 0.05
 dy        = 0.05
-finalTime = 0.5*L/c0
+finalTime = 1.5*L/c0
 cfl       = .99
 omega     = 1e8
 
@@ -30,8 +31,8 @@ spread = 2e-9
 
 
 # Box limits
-xini = 20
-xfin = 80
+xini = 40
+xfin = 160
 yini = 20
 yfin = 180 
 
@@ -130,13 +131,13 @@ cHy = np.ones((int(L/dx), int(L/dy)))*cHycom
 # Abre y convierte la imagen a blanco y negro
 im = Image.open(filename).convert('1', dither=Image.NONE)
 # Cambia el tamaño
-im = im.resize(size, Image.ANTIALIAS)
+im = im.resize([yfin - yini + 1, xfin - xini + 1], Image.ANTIALIAS)
 # Pasa a array de numpy
 figure_array = np.logical_not(np.array(im))
 
 # Update permitivities
-#cEx[xini:xfin = 
-#cEy[xini:xfin = 
+(cEx[xini:xfin + 1, yini:yfin + 1])[figure_array] = cExcom/epsrel_pera
+(cEy[xini:xfin + 1, yini:yfin + 1])[figure_array] = cEycom/epsrel_pera
 
 
 # ---- Time integration -------------------------------------------------------
