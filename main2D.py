@@ -28,15 +28,12 @@ spread = 2e-9
 
 
 # Box limits
-xini = L*0.2
-xfin = L*0.8
-yini = L*0.1
-yfin = L*0.9 
 
-#xini = 20
-#xfin = 80
-#yini = 20
-#yfin = 180 
+
+xini = 20
+xfin = 80
+yini = 20
+yfin = 180 
 
 def gaussianFunction(x, x0, spread):
     # Cast function to a numpy array
@@ -125,10 +122,10 @@ cEycom = dt / eps0 / dy
 cHxcom = dt / mu0  / dx
 cHycom = dt / mu0  / dy
 
-cEx = np.ones((L/dx + 1, L/dy))*cExcom
-cEy = np.ones((L/dx, L/dy +1 ))*cEycom
-cHx = np.ones((L/dx, L/dy))*cHxcom
-cHy = np.ones((L/dx, L/dy))*cHycom
+cEx = np.ones((int(L/dx + 1), int(L/dy)))*cExcom
+cEy = np.ones((int(L/dx), int(L/dy +1) ))*cEycom
+cHx = np.ones((int(L/dx), int(L/dy)))*cHxcom
+cHy = np.ones((int(L/dx), int(L/dy)))*cHycom
 
 # ---- Time integration -------------------------------------------------------
 print('--- Processing starts---')
