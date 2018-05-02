@@ -106,10 +106,22 @@ if 'initialH' in locals():
     hzOld = initialH
 
 # Determines recursion coefficients
-cEx = dt / eps0 / dx
-cEy = dt / eps0 / dy
-cHx = dt / mu0  / dx
-cHy = dt / mu0  / dy
+gridEXX = np.linspace(0,      L,        num=L/dx+1, endpoint=True)
+gridEXY = np.linspace(dy/2.0, L-dy/2.0, num=L/dy,   endpoint=True)
+gridEYX = np.linspace(dx/2.0, L-dx/2.0, num=L/dx,   endpoint=True)
+gridEYY = np.linspace(0,      L,        num=L/dy+1, endpoint=True)
+gridHZX = np.linspace(dx/2.0, L-dx/2.0, num=L/dx,   endpoint=True)
+gridHZY = np.linspace(dy/2.0, L-dy/2.0, num=L/dy,   endpoint=True)
+
+cExcom = dt / eps0 / dx
+cEycom = dt / eps0 / dy
+cHxcom = dt / mu0  / dx
+cHycom = dt / mu0  / dy
+
+cEx = np.ones((L/dx + 1, L/dy))*cExcom
+cEy = np.ones((L/dx, L/dy +1 ))*cEycom
+cHx = np.ones((L/dx, L/dy))*cHxcom
+cHy = np.ones((L/dx, L/dy))*cHycom
 
 # ---- Time integration -------------------------------------------------------
 print('--- Processing starts---')
