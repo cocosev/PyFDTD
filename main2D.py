@@ -26,10 +26,17 @@ totalFieldBox_len = totalFieldBox_lim[1] - totalFieldBox_lim[0]
 delay  = 8e-9
 spread = 2e-9
 
-xini = 20
-xfin = 80
-yini = 20
-yfin = 180 
+
+# Box limits
+xini = L*0.2
+xfin = L*0.8
+yini = L*0.1
+yfin = L*0.9 
+
+#xini = 20
+#xfin = 80
+#yini = 20
+#yfin = 180 
 
 def gaussianFunction(x, x0, spread):
     # Cast function to a numpy array
@@ -120,11 +127,11 @@ for n in range(numberOfTimeSteps):
     # --- Updates E field --- (diferencias regresivas)
     for i in range(1, gridEXX.size-1):
         for j in range(0, gridEXY.size):
-            exNew[i][j] = exOld[i][j] + cEy * (hzOld[i][j] - hzOld[i  ][j-1])
+            exNew[i][j] = exOld[i][j] + cEy[i][j] * (hzOld[i][j] - hzOld[i  ][j-1])
   
     for i in range(0, gridEYX.size):
         for j in range(1, gridEYY.size-1):
-            eyNew[i][j] = eyOld[i][j] - cEx * (hzOld[i][j] - hzOld[i-1][j  ])
+            eyNew[i][j] = eyOld[i][j] - cEx[i][j] * (hzOld[i][j] - hzOld[i-1][j  ])
   
   
     for j in range(yini, yfin+1):           
@@ -134,11 +141,11 @@ for n in range(numberOfTimeSteps):
     for i in range(xini, xfin+1):           
         if n*dt >= (i-xini)*dx/c0:
             # Engañamos a la 1a dentro para que parezca que la onda sigue a la izq.
-            exNew[i][yini] = exOld[i][yini] + cEy * (hzOld[i][yini] - (hzOld[i  ][yini-1] + gaussian((i+1)*dx, dt*n, omega, c0, desfase=delay)/imp0))
+            exNew[i][yini] = exOld[i][yini] + cEy[i][j] * (hzOld[i][yini] - (hzOld[i  ][yini-1] + gaussian((i+1)*dx, dt*n, omega, c0, desfase=delay)/imp0))
             # (sim.) Cambiamos a dif. progresivas y engañamos a la ultima dentro para que parezca que la onda sigue a la dcha.
             #exNew[i][yfin] = exOld[i][yfin] + cEy * ((hzOld[i][yfin+1] + gaussian((i-1)*dx, dt*n, omega, c0, desfase=delay)/imp0) - hzOld[i  ][yfin] )
             # Engañamos a la primera fuera para que ignore la onda a la izq.
-            exNew[i][yfin+1] = exOld[i][yfin+1] + cEy * (hzOld[i][yfin+1] - (hzOld[i  ][yfin+1-1] - gaussian((i+1)*dx, dt*n, omega, c0, desfase=delay)/imp0))
+            exNew[i][yfin+1] = exOld[i][yfin+1] + cEy[i][j] * (hzOld[i][yfin+1] - (hzOld[i  ][yfin+1-1] - gaussian((i+1)*dx, dt*n, omega, c0, desfase=delay)/imp0))
             # (sim.) Cambiamos a dif. progesivas y engañamos a la ultima fuera para que ignore la onda a la dcha.
             #exNew[i][yini-1] = exOld[i][yini-1] + cEy * ((hzOld[i][yini] - gaussian((i-1)*dx, dt*n, omega, c0, desfase=delay)/imp0) - hzOld[i  ][yini-1] )
             
@@ -154,8 +161,8 @@ for n in range(numberOfTimeSteps):
     # --- Updates H field --- (dif. progeresivas)
     for i in range(gridHZX.size-1):
         for j in range(gridHZX.size-1):
-            hzNew[i][j] = hzOld[i][j] - cHx * (eyNew[i+1][j  ] - eyNew[i][j]) +\
-                                        cHy * (exNew[i  ][j+1] - exNew[i][j])
+            hzNew[i][j] = hzOld[i][j] - cHx[i][j] * (eyNew[i+1][j  ] - eyNew[i][j]) +\
+                                        cHy[i][j] * (exNew[i  ][j+1] - exNew[i][j])
         
     for j in range(yini, yfin+1):                 
         hzNew[xini-1][j] +=gaussian(xini*dx, dt*n, omega, c0, desfase=delay)/imp0
