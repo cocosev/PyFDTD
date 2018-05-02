@@ -12,8 +12,10 @@ c0   = scipy.constants.speed_of_light
 mu0  = scipy.constants.mu_0
 eps0 = scipy.constants.epsilon_0
 imp0 = math.sqrt(mu0 / eps0)
+filename = "perita.jpg"
+epsrelpera = 
 
-L         = 10.0
+         = 10.0
 dx        = 0.05
 dy        = 0.05
 finalTime = 0.5*L/c0
@@ -28,8 +30,6 @@ spread = 2e-9
 
 
 # Box limits
-
-
 xini = 20
 xfin = 80
 yini = 20
@@ -126,6 +126,18 @@ cEx = np.ones((int(L/dx + 1), int(L/dy)))*cExcom
 cEy = np.ones((int(L/dx), int(L/dy +1) ))*cEycom
 cHx = np.ones((int(L/dx), int(L/dy)))*cHxcom
 cHy = np.ones((int(L/dx), int(L/dy)))*cHycom
+
+# Abre y convierte la imagen a blanco y negro
+im = Image.open(filename).convert('1', dither=Image.NONE)
+# Cambia el tamaño
+im = im.resize(size, Image.ANTIALIAS)
+# Pasa a array de numpy
+figure_array = np.logical_not(np.array(im))
+
+# Update permitivities
+#cEx[xini:xfin = 
+#cEy[xini:xfin = 
+
 
 # ---- Time integration -------------------------------------------------------
 print('--- Processing starts---')
