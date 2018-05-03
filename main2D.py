@@ -16,7 +16,7 @@ imp0 = math.sqrt(mu0 / eps0)
 L         = 10.0
 dx        = 0.05
 dy        = 0.05
-finalTime = 0.5*L/c0
+finalTime = 1.5*L/c0
 cfl       = .99
 omega     = 1e8
 
@@ -26,10 +26,10 @@ totalFieldBox_len = totalFieldBox_lim[1] - totalFieldBox_lim[0]
 delay  = 8e-9
 spread = 2e-9
 
-xini = 20
-xfin = 80
-yini = 20
-yfin = 180 
+xini = 40
+xfin = 160
+yini = 30
+yfin = 170 
 
 def gaussianFunction(x, x0, spread):
     # Cast function to a numpy array
@@ -227,6 +227,8 @@ def animate(i):
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=nSamples, interval=50, blit=True)
+
+anim.save("caraluis.mp4", dpi=300, extra_args=['-vcodec', 'libx264'])
 
 plt.show()
 
